@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="logo.jpg">
+    <title>Vivenza — Підробітки для підлітків.</title>
+    <meta name="description" content="Підробітки без води — чітко, з прибутком. Vivenza знайде, де заробити.">
+    <meta property="og:title" content="Vivenza — Підробітки для підлітків.">
+    <meta property="og:description" content="Підробітки без води — чітко, з прибутком. Vivenza знайде, де заробити.">
+    <meta property="og:image" content="logo.jpg">
+    <meta name="keywords" content="заробіток в Україні, підробіток для молоді, студенти робота, заробіток без вкладень, ідеї підробітку, кращі підробітки 2025, топ підробітки, актуальні вакансії, робота вдома">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      background-color: #0e0e10;
+      font-family: 'Inter', sans-serif;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: #1a1a1d;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.6);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 14px;
+      color: #aaa;
+    }
+    input, select {
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
+      border: none;
+      margin-top: 20px;
+      font-size: 16px;
+      background: #2b2b2f;
+      color: #fff;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: #6c5ce7;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #a29bfe;
+    }
+    .logo {
+      font-weight: bold;
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #ffffffcc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">Vivenza</div>
+    <h1>Введи свій Telegram @нік</h1>
+    <p>Ми використаємо його, щоб зв'язатись після оплати.</p>
+
+    <input type="text" id="nickname" placeholder="@username" />
+
+    <select id="product">
+      <option value="channel" selected>🔐 Доступ до Telegram-каналу — 50 грн</option>
+      <option value="sub_1">📆 Підписка на 1 день — 10 грн</option>
+      <option value="sub_7">📆 Підписка на 7 днів — 25 грн</option>
+      <option value="sub_14">📆 Підписка на 14 днів — 35 грн</option>
+      <option value="sub_28">📆 Підписка на 28 днів — 50 грн</option>
+      <option value="sub_60">📆 Підписка на 2 місяці — 100 грн</option>
+      <option value="sub_180">📆 Підписка на 6 місяців — 500 грн</option>
+    </select>
+
+    <button onclick="redirectToPayment()">Продовжити до оплати</button>
+  </div>
+
+  <script>
+    function redirectToPayment() {
+      const nick = document.getElementById('nickname').value.trim();
+      const product = document.getElementById('product').value;
+
+      if (!nick.startsWith('@') || nick.length < 5) {
+        alert('Введи коректний Telegram нік.');
+        return;
+      }
+
+      const products = {
+        channel: { name: 'Доступ до каналу', amount: 50 },
+        sub_1: { name: 'Підписка на 1 день', amount: 10 },
+        sub_7: { name: 'Підписка на 7 днів', amount: 25 },
+        sub_14: { name: 'Підписка на 14 днів', amount: 35 },
+        sub_28: { name: 'Підписка на 28 днів', amount: 50 },
+        sub_60: { name: 'Підписка на 2 місяці', amount: 100 },
+        sub_180: { name: 'Підписка на 6 місяців', amount: 500 },
+      };
+
+      const { name, amount } = products[product];
+      const url = `https://www.monobank.ua/checkout?amount=${amount}&text=${encodeURIComponent(nick)}`;
+      window.location.href = url;
+    }
+  </script>
+</body>
+</html>
