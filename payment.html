@@ -93,29 +93,47 @@
   </div>
 
   <script>
-    function redirectToPayment() {
-      const nick = document.getElementById('nickname').value.trim();
-      const product = document.getElementById('product').value;
+  function redirectToPayment() {
+    const nick = document.getElementById('nickname').value.trim();
+    const product = document.getElementById('product').value;
 
-      if (!nick.startsWith('@') || nick.length < 5) {
-        alert('Введи коректний Telegram нік.');
-        return;
-      }
-
-      const products = {
-        channel: { name: 'Доступ до каналу', amount: 50 },
-        sub_1: { name: 'Підписка на 1 день', amount: 10 },
-        sub_7: { name: 'Підписка на 7 днів', amount: 25 },
-        sub_14: { name: 'Підписка на 14 днів', amount: 35 },
-        sub_28: { name: 'Підписка на 28 днів', amount: 50 },
-        sub_60: { name: 'Підписка на 2 місяці', amount: 100 },
-        sub_180: { name: 'Підписка на 6 місяців', amount: 500 },
-      };
-
-      const { name, amount } = products[product];
-      const url = `https://www.monobank.ua/checkout?amount=${amount}&text=${encodeURIComponent(nick)}`;
-      window.location.href = url;
+    if (!nick.startsWith('@') || nick.length < 5) {
+      alert('Введи коректний Telegram нік.');
+      return;
     }
-  </script>
+
+    const products = {
+      channel: { name: 'Доступ до каналу', amount: 5000 },
+      sub_1: { name: 'Підписка на 1 день', amount: 1000 },
+      sub_7: { name: 'Підписка на 7 днів', amount: 2500 },
+      sub_14: { name: 'Підписка на 14 днів', amount: 3500 },
+      sub_28: { name: 'Підписка на 28 днів', amount: 5000 },
+      sub_60: { name: 'Підписка на 2 місяці', amount: 10000 },
+      sub_180: { name: 'Підписка на 6 місяців', amount: 50000 },
+    };
+
+    const { name, amount } = products[product];
+
+    fetch('create_invoice.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nick: nick,
+        product: name,
+        amount: amount
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.pageUrl) {
+        window.location.href = data.pageUrl;
+      } else {
+        alert('Помилка створення рахунку: ' + JSON.stringify(data));
+      }
+    })
+    .catch(err => alert('Помилка зʼєднання: ' + err));
+  }
+</script>
+
 </body>
 </html>
